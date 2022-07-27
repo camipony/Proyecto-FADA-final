@@ -81,45 +81,13 @@ async function solve(n, procedimientos) {
     var tiempoAcum2=0;//Tiempo acumulado (unidad de horas)
     var horasAcum, minutosAcum;
     var nombresProcedimientos = [];
-    var nombresProcedimientos2 = [];
+    var posiXproc = [];
     
     for(var i=0;i<n;i++){
-        console.log(procedimientos[i].horaFin.hora);
-        horaComienzo = procedimientos[i].horaInicio.hora+(procedimientos[i].horaInicio.minutos/60);
-        console.log(horaComienzo);
-        if(horaComienzo>=horaLimite){
-            cantidadProcedimientos += 1;
-            console.log(cantidadProcedimientos);
-            console.log(horaComienzo+">"+horaLimite);
-            horaLimite = procedimientos[i].horaFin.hora+(procedimientos[i].horaFin.minutos/60);
-            tiempoAcum += horaLimite-horaComienzo;//Tiempo en que se usa la sala por un procedimiento
-            console.log(horaLimite+"-"+horaComienzo);
-            nombresProcedimientos.push(procedimientos[i].nombre);//Insertar nombre de procedimientos en un array
-        }else if(horaComienzo<=horaLimite){
-            console.log("entra else "+procedimientos[i].nombre);
-            horaLimite2 = procedimientos[i].horaFin.hora+(procedimientos[i].horaFin.minutos/60);
-            tiempoAcum2 += horaLimite2-horaComienzo;//Tiempo en que se usa la sala por un procedimiento
-            nombresProcedimientos2.push(procedimientos[i].nombre);//Insertar nombre de procedimientos en un array
+        for(var j=0; j<n; j++){
+            nombresProcedimientos[i]
         }
     }
-
-    if(tiempoAcum < tiempoAcum2){
-
-        tiempoAcum = tiempoAcum2;
-        if(nombresProcedimientos.length == nombresProcedimientos2.length){
-            nombresProcedimientos = nombresProcedimientos2;
-
-        }else{
-            nombresProcedimientos.length = nombresProcedimientos2.length;
-            nombresProcedimientos = nombresProcedimientos2;
-            console.log("else")
-
-        }
-    }
-
-    tiempoAcum = (tiempoAcum+"").split(".");
-    horasAcum = tiempoAcum[0];
-    minutosAcum = Math.trunc(parseFloat(0+"."+tiempoAcum[1])*60);
     
     //console.log(minutosAcum);
     return new Respuesta(cantidadProcedimientos, new Hora(horasAcum, minutosAcum), nombresProcedimientos);
