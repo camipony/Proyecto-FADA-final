@@ -78,7 +78,7 @@ async function solve(n, procedimientos) {
     var horaComienzo;//horas y minutos de hi (hora de inicio)
     var horaLimite = 0, horaLimite2;//hora final de la linea anterior
     var tiempoAcum = 0;
-    var tiempoAcum2=0;//Tiempo acumulado (unidad de horas)
+    var tiempoAcum2 = 0;//Tiempo acumulado (unidad de horas)
     var horasAcum, minutosAcum;
     var nombresProcedimientos = [];
     var nombresProcedimientos2 = [];

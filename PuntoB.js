@@ -2,8 +2,8 @@ let fs = require('fs');
 /**
  * Nombres de los archivos de lectura y escritura, modifique como considere.
  */
-let ARCHIVO_LECTURA = 'Repositorio/Javascript/inB';
-let ARCHIVO_ESCRITURA = 'Repositorio/Javascript/outB'
+let ARCHIVO_LECTURA = 'Proyecto-FADA-final/inB';
+let ARCHIVO_ESCRITURA = 'Proyecto-FADA-final/outB'
 
 /**
  * Método para realizar la lectura del problema, no modificar.
@@ -61,55 +61,97 @@ async function output(obj) {
 async function solve(n, m, libros) {
     
     var cantidadDias;
-    var librosMaximos;//Cantidad de libros maximos que puede tener un escritor
-    var distribucionLib = -1;//Cantidad de libros distribuidos por escritor
+    var reparticion;//Cantidad de paginas maximas que puede tener un escritor
+    var anteriorLib = 0;//Paginas del libro anterior
+    var deltaActual;
+    var deltaAnterior = 0;
+    var deltaFinal = 0;
+    var sumPaginas = [];//Suma de las paginas de los libros en orden secuencial
     var librosIniciales = [];//Libros iniciales de los escritores
     var librosFinales = [];//Libros finales de los escritores
-    var paginasLibro = [0];//Cantidad de paginas asginadas por escritor
     var x = 0;//Posicion de paginasLibro
+    var paginasIniciales;
+    var cantidadLibros = m;
+    var cantidadEscritores = n;
+    var nuevoInicio = 0;
 
-    //Mas libros que escritores, solo funciona si (m/n) es par (por ahora)
-    if(m>n){
-
-        librosMaximos = m/n;
-        for(var i=0;i<m;i++){
-            distribucionLib++;
-
-            if(distribucionLib>=librosMaximos){
-                distribucionLib=0;
-                x++;
-                paginasLibro[x] = 0;
+    //Cantidad de paginas totales inicialmente
+    const paginas = (inicio) => {
+        paginasIniciales = [];
+        anteriorLib = 0;
+        for(var h=0;h<m;h++){
+            
+            if(h>=inicio){
+            paginasIniciales.push(libros[h].paginas);
+            console.log(anteriorLib)
+            console.log(libros[h].paginas)
+            sumPaginas[h]=anteriorLib+libros[h].paginas;
+            anteriorLib=sumPaginas[h];
+            }else{
+                sumPaginas[h]=0;
             }
             
-            if(distribucionLib==0){
-                librosIniciales[x] = libros[i].nombre;//primer libro de un escritor
-            }else if(distribucionLib==librosMaximos-1) {
-                librosFinales[x] = libros[i].nombre;//ultimo libro de un escritor
-            }
-            
-            console.log(distribucionLib);
-            paginasLibro[x] += libros[i].paginas;
         }
-    }
-    //si m=n -> m/n=1, 1 libro para cada escritor
-    else if(m==n){
+        librosIniciales.push(libros[inicio].paginas);
+        console.log(librosIniciales);
+        console.log(paginasIniciales);
+        console.log(sumPaginas);
+        return finSecuencia(sumPaginas);
+    };
+    
+    console.log(libros);
+    //posicion del libro final de un escritor
+    const finSecuencia = (secuenciaLibros) => {
+        sumPaginas = secuenciaLibros;
+        reparticion = sumPaginas[sumPaginas.length-1]/cantidadEscritores;
+        console.log(reparticion);
 
-        for(var j=0;j<n;j++){
-            librosIniciales[j] = libros[j].nombre; 
-            librosFinales[j] = "";
-            paginasLibro[j]=libros[j].paginas;
+        for(var s=0;s<m;s++){
+            
+            deltaActual = Math.abs(sumPaginas[s]-reparticion);//8.33
+    
+            if(deltaActual<deltaAnterior){ deltaFinal = s; }
+            
+            deltaAnterior = deltaActual;
+            console.log(deltaFinal);
+        }
+        librosFinales.push(libros[deltaFinal].paginas);
+        cantidadEscritores -= 1;
+        nuevoInicio = deltaFinal+1;
+        console.log(nuevoInicio);
+        console.log(cantidadLibros);
+        console.log(librosIniciales);
+        console.log(librosFinales);
+        
+    }
+
+
+    const invocaciones = () =>{
+        paginas(0);
+        var k = nuevoInicio;
+        console.log(k);
+        while(k<m){
+            paginas(k);
+            k = nuevoInicio;
+            console.log(k);
         }
     }
+
+    invocaciones();
+    
     console.log(librosIniciales);
     console.log(librosFinales);
-    console.log(paginasLibro);
 
-    cantidadDias = paginasLibro[0];
+   
+
     
-    for(var k=1;k<n;k++){
-        if(cantidadDias<paginasLibro[k]) {cantidadDias = paginasLibro[k];}
-    }
+    //
+    
+    
+    
+    
 
+    
     return new Respuesta(cantidadDias, librosIniciales, librosFinales);
 }
 
