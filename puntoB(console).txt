@@ -78,17 +78,22 @@ async function solve(n, m, libros) {
         for(var h=0;h<m;h++){
             
             if(h>=inicio){
+            console.log(anteriorLib)
+            console.log(libros[h].paginas)
             sumPaginas[h]=anteriorLib+libros[h].paginas;
             anteriorLib=sumPaginas[h];
             }else{
                 sumPaginas[h] = 0;
             }
-
+            
         }
         librosIniciales.push(libros[inicio].nombre);
+        console.log(librosIniciales);
+        console.log(sumPaginas);
         finSecuencia(sumPaginas);
     };
     
+    console.log(libros);
     //posicion del libro final de un escritor
     const finSecuencia = (secuenciaLibros) => {
         sumPaginas = secuenciaLibros;
@@ -105,11 +110,16 @@ async function solve(n, m, libros) {
             }
             
             deltaAnterior = deltaActual;
+            console.log(deltaFinal);
         }
         librosFinales.push(libros[deltaFinal].nombre);
         x++;
         cantidadEscritores -= 1;
         nuevoInicio = deltaFinal+1;
+        console.log(nuevoInicio);
+        
+        console.log(librosIniciales);
+        console.log(librosFinales);
     }
 
     //costo O(n) -> Determinar la mayor cantidad de paginas asignadas para calcular el tiempo de demora
@@ -126,14 +136,21 @@ async function solve(n, m, libros) {
     const invocaciones = () => {
         paginas(0);
         var k = nuevoInicio;
-        
+        console.log(k);
         while(k<m){
             paginas(k);
             k = nuevoInicio;
+            console.log(k);
         }
     }
 
     invocaciones();
+    console.log(diasMaximos(cantidadPaginas));
+    
+    
+    
+    console.log(librosIniciales);
+    console.log(librosFinales);
     
     return new Respuesta(diasMaximos(cantidadPaginas), librosIniciales, librosFinales);
 }

@@ -1,7 +1,7 @@
-3 6
-Libro1 12
-Libro2 10
-Libro3 11
-Libro4 9
-Libro5 9
-Libro6 10
+4 6
+L1 20
+L2 10
+L3 10
+L4 30
+L5 20
+L6 25
