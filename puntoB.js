@@ -2,8 +2,8 @@ let fs = require('fs');
 /**
  * Nombres de los archivos de lectura y escritura, modifique como considere.
  */
-let ARCHIVO_LECTURA = 'Proyecto-FADA-final/inB';
-let ARCHIVO_ESCRITURA = 'Proyecto-FADA-final/outB'
+let ARCHIVO_LECTURA = 'inB';
+let ARCHIVO_ESCRITURA = 'outB'
 
 /**
  * Método para realizar la lectura del problema, no modificar.
