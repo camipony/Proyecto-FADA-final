@@ -146,7 +146,6 @@ async function solve(n, procedimientos) {
                 if (i < procedimientos.length - 2) {
                     horaFin = procedimientos[i].horaFin.hora + (procedimientos[i].horaFin.minutos / 60);
                 } else {
-                
                 }
 
             } else if (horaComienzo >= horaFin) {
@@ -240,18 +239,17 @@ async function solve(n, procedimientos) {
         var j = 0;
         var m = posibilitiesFinal[0][1].length;
         console.log("m " + m);
-        for (var x = 0; x < posibilitiesFinal.length; x++) {
-            for (var i = 0; i < posibilitiesFinal[i][1].length - 1; i++) {
+            for (var i = 0; i < posibilitiesFinal[0][1].length - 1; i++) {
                 j++;
                 console.log("proce en cuestion " + posibilitiesFinal[i][1][i] + " " + i);
                 var hF = procHf(posibilitiesFinal[i][1][i]);
-                var hC = procHc(posibilitiesFinal[j][1][j]);
-                console.log("hf " + hF + " hc " + hC);
-                if (hF <= hC && hF != 24) {
+                var hC = procHc(posibilitiesFinal[j][1][i]);
+                console.log("hf " + hF + " hc " + posibilitiesFinal[j][1][i]);
+                if (hF <= hC) {
                     console.log(" sirve " + posibilitiesFinal[j][1][j]);
                 } else {
-
-                }
+                    
+                j++;
             }
 
 
@@ -292,6 +290,7 @@ async function solve(n, procedimientos) {
             posibilitiesFinal.push([procedimientos[i].nombre, posibilities(procedimientos[i].nombre,
                 horaFin2,
                 procedimientos)]);
+                
             // rangesXproces.push([posibilitiesFinal[i], rangos[i]]);
             // console.log("posis y rangos " + rangesXproces[i])
         }
@@ -310,13 +309,11 @@ async function solve(n, procedimientos) {
             posibilitiesFinal[i].length = 1;
         }
         console.log("posibilities " + posibilitiesFinal[i]);
-        /*for(var i=0; i<posibilitiesFinal.length;i++){
-            transitivity();
-
-        }*/
+        
+        
     }
 
-    //  transitivity();
+   // transitivity();
 
     console.log("final proces " + nombresProcedimientos);
     //threeBuild(nombresProcedimientos);

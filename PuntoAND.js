@@ -67,11 +67,51 @@ async function output(obj) {
  */
 async function solve(n, procedimientos) {
     var combinaciones = [];
-    var rangos = [];
+    var rangos = [], dataProc = [], horasFinales = [], nomProces = [];
     var rango = 0;
     var horas, minutos;
     var horaFinal, minutosFinal, horaActual;
     var procFinales, horasFinales;
+
+
+    const sortArray = (array) => { 
+        /** array = [[5,9,Proc1],[2,10,Proc2],[14,20,Proc3],[11,19,Proc4]]
+         * //array2= [[2,10,Proc2], [5,9,Proc1], ]
+        */
+        var array2 = [];
+        var m = 0;
+        for(var i=0; i<array.length-1; i++){
+            for(var j=1; j<array.length; j++){
+                console.log("a "+array[i][0] +" <= " + array[j][0]+ " j"+j+ " i "+i);
+                if(array[i][0] <= array[j][0]){
+                    console.log(array[i][0] +" es menor " + array[j][0]);
+                    console.log("ass "+array[i]);
+                    array2[m] = array[i]
+                }else{
+                    console.log(array[i][0] +" es mayor " + array[j][0]);
+                    array2[m] = array[j] 
+                }   
+                m++;
+            }
+        }
+        return array2;
+    }
+
+
+    const noEmptyArrays = () => {
+        for(var i=0; i<n; i++){
+            dataProc[i] =[procedimientos[i].horaInicio.hora+(procedimientos[i].horaInicio.minutos/60), 
+            procedimientos[i].horaFin.hora+(procedimientos[i].horaFin.minutos/60),procedimientos[i].nombre];
+        }
+        console.log("data "+dataProc);
+       return sortArray(dataProc);
+    }
+
+    console.log(noEmptyArrays());
+
+  //  relations();
+
+
 
 //Para cada procedimiento sacar la combinacion con más cantidad de horas
 for(var d=0;d<n-1;d++){//(0,1,2,3

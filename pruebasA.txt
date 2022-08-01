@@ -1,0 +1,112 @@
+
+Analisis:
+
+var combinaciones = []
+
+for(d=0;d<n-1;d++){//(0,1,2,3
+	combinaciones[d]=procedimientos[d].nombre+"\n";
+    horaFinal = procedimientos[d].hf;
+	for(k=d+1;k<n;d++){//(1x,2y,3x,4y; 2x,3y,4y; 3x,4y; 4
+		if(procedimientos[k].hi>=horaFinal){
+            combinaciones[d] += procedimientos[k]+"\n";
+            horaFinal = procedimientos[k].hf;//2y->22
+        }
+	}
+}
+combinaciones[0]="proc1+\n"+"proc3+\n"+"proc5+\n"
+combinaciones[1]="proc2+\n"+"proc4+\n"+"proc5+\n"
+combinaciones[2]="proc3+\n"+"proc5+\n"
+combinaciones[3]="proc4+\n"+"proc5+\n";
+
+-------------------------------------------------------------------------------------
+
+caso 1: diferente orden (primero, tercero, quinto)
+5
+Proc1 0:00-8:00  *
+Proc2 5:00-12:00
+Proc3 11:00-22:00 * 
+Proc4 12:00-22:00
+Proc5 22:00-24:00 * 
+
+caso 2: diferente orden (segundo, cuarto)
+5
+Proc1 2:00-6:00 
+Proc2 3:00-12:00 *
+Proc3 11:00-20:00
+Proc4 12:00-24:00 *
+Proc5 22:00-24:00
+
+caso 3 //diferente orden (egundo, tercero, cuarto)
+5
+Proc1 2:00-6:00  
+Proc2 3:00-12:00 *
+Proc3 12:00-20:00 *
+Proc4 20:00-24:00 *
+Proc5 22:00-24:00
+
+caso 4: diferente orden (primero, segundo, tercero, quinto)
+5
+Proc1 0:00-8:00 *
+Proc2 8:00-10:00 *
+Proc3 10:00-12:00 *
+Proc4 11:00-22:00 
+Proc5 12:00-24:00 *
+
+caso 5: diferente orden (primero, tercero, cuarto, quinto)
+5
+Proc1 0:00-8:00 * 
+Proc2 5:00-12:00 
+Proc3 9:00-22:00 *
+Proc4 22:00-23:00 *
+Proc5 23:00-24:00 *
+
+caso 6: un procedimiento que dura todo el día se escoge solo
+5
+Proc1 0:00-24:00 * 
+Proc2 5:00-24:00 
+Proc3 9:00-24:00 
+Proc4 22:00-24:00 
+Proc5 23:00-24:00 
+
+caso 7: diferente orden (se escogen todos)
+5
+Proc1 0:00-4:00 *
+Proc2 5:00-6:00 * 
+Proc3 7:00-8:00 * 
+Proc4 9:00-10:00 *
+Proc5 10:00-24:00 *
+
+caso 8: mitades de horas
+5
+Proc1 2:00-6:00   = 4
+Proc2 5:30-12:00  = 6:30 *
+Proc3 12:30-20:00 = 7:30 *
+Proc4 20:30-23:00 = 2:30 *
+Proc5 23:30-24:00 = 30 *
+
+caso 9: todos los procedimientos escogidos, abarcan 24 horas.
+24
+Proc1 0:00-1:00
+Proc2 1:00-2:00 
+Proc3 2:00-3:00 
+Proc4 3:00-4:00 
+Proc5 4:00-5:00
+Proc6 5:00-6:00
+Proc7 6:00-7:00 
+Proc8 7:00-8:00 
+Proc9 8:00-9:00 
+Proc10 9:00-10:00
+Proc11 10:00-11:00
+Proc12 11:00-12:00 
+Proc13 12:00-13:00 
+Proc14 13:00-14:00 
+Proc15 14:00-15:00
+Proc16 15:00-16:00
+Proc17 16:00-17:00 
+Proc18 17:00-18:00 
+Proc19 18:00-19:00 
+Proc20 19:00-20:00
+Proc21 20:00-21:00
+Proc22 21:00-22:00 
+Proc23 22:00-23:00 
+Proc24 23:00-24:00 
