@@ -70,7 +70,7 @@ async function solve(n, procedimientos) {
     var rangos = [];
     var rango = 0;
     var horas, minutos;
-    var horaFinal, minutosFinal, horaActual;
+    var horaFinal, horaActual;
     var procFinales, horasFinales;
     var horasIni=[], horasIniSort = [];
     var horasFin = [], horasFinSort = [];
@@ -100,20 +100,28 @@ async function solve(n, procedimientos) {
     const emparejar = () =>{
         var inicio = 0;
         var x = 0;
-        var y = -1;
+        var y = 0;
+        var prohibidos = [];
     
         while(inicio<horasIni.length){
-            if(horasIniSort[inicio]==horasIni[x] && y!=x){//horasIniSort[0]=horasIni[1]|procSort[0]=proc[1]
+            if(horasIniSort[inicio]==horasIni[x] && nombreProc[x]!=prohibidos[x]){//horasIniSort[0]=horasIni[1]|procSort[0]=proc[1]
+                
                 horasFinSort[inicio]=horasFin[x];
                 nombreProcSort[inicio]=nombreProc[x];
-                y = x;
+                y=x;
+                prohibidos[x]=nombreProc[x];
                 x = 0;
                 inicio++;
+                
             }else x++;
         }
+        console.log(prohibidos)
+        
     }
     emparejar();
+    
     console.log(horasIni)
+    console.log(isNaN(horasIni[0]))
     console.log(horasIniSort)
     console.log(horasFin)
     console.log(horasFinSort)
@@ -123,20 +131,16 @@ async function solve(n, procedimientos) {
 //Para cada procedimiento sacar la combinacion con más cantidad de horas
 for(var d=0;d<n-1;d++){//(0,1,2,3
 
-	combinaciones[d]=procedimientos[d].nombre;
-    minutosFinal = procedimientos[d].horaFin.minutos/60;
-    horaFinal = procedimientos[d].horaFin.hora+minutosFinal;
-    horaActual = procedimientos[d].horaInicio.hora+(procedimientos[d].horaInicio.minutos/60)
+	combinaciones[d]=nombreProcSort[d];
+    horaFinal = horasFinSort[d];
+    horaActual = horasIniSort[d];
     rango = horaFinal - horaActual;
     console.log(rango)
     console.log(horaFinal)
 
 	for(var k=d+1;k<n;k++){//(1x,2y,3x,4y; 2x,3y,4y; 3x,4y; 4
-        
-        var minIniActual = procedimientos[k].horaInicio.minutos/60;
-        var horaIniActual = procedimientos[k].horaInicio.hora+minIniActual;
-        var minFinActual = procedimientos[k].horaFin.minutos/60;
-        var horaFinActual = procedimientos[k].horaFin.hora+minFinActual;
+        var horaIniActual = horasIniSort[k];
+        var horaFinActual = horasFinSort[k];
         
 		
         if(horaIniActual>=horaFinal){
@@ -155,7 +159,6 @@ for(var d=0;d<n-1;d++){//(0,1,2,3
 console.log(combinaciones[0])
 console.log(combinaciones[1])
 console.log(combinaciones[2])
-console.log(combinaciones[3])
 console.log(rangos);
 console.log(combinaciones.length)
 
@@ -176,12 +179,12 @@ console.log(combinaciones.length)
 
 //rangoMayor()
     horasFinales = (horasFinales+"").split(".");
+    console.log(horasFinales)
     horas = horasFinales[0];
     minutos = Math.trunc(parseFloat(0+"."+horasFinales[1])*60);
     
 
     console.log(horas)
-    console.log(minutos)
 
     console.log(procFinales)
     
