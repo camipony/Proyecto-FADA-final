@@ -88,6 +88,7 @@ async function solve(n, procedimientos) {
     var rangos = [];
     const buildRangesV = [];
 
+    //Retorna un vector con el nombre de un procedimiento y su rango
     const buildRanges = (procedimientos) => {
         procedimientos.this = procedimientos;
         for (var i = 0; i < procedimientos.length; i++) {
@@ -99,6 +100,7 @@ async function solve(n, procedimientos) {
         return buildRangesV;
     }
 
+    //Encuentra el delta de un procedimiento dependiendo del nombre de un procedimiento
     const findRangexProce = (proc) => {
         buildRanges(procedimientos);
         for (var i = 0; i < buildRangesV.length; i++) {
@@ -107,11 +109,7 @@ async function solve(n, procedimientos) {
             }
         }
     }
-
-    const correspondence = (ranges, p) => {
-
-    }
-
+    //Retorna un array con arrays (que contienen el procedimiento y su delta)
     const buildVectorRanges = (ranges) => {
         //ranges.sort();
         ranges.sort(function (a, b) {
@@ -125,18 +123,6 @@ async function solve(n, procedimientos) {
         }*/
     }
 
-    const copyArray = (proc, nombresProcedimientos) => {
-        const arr = nombresProcedimientos;
-        // console.log("copy "+arr);
-        posiYproces.push(proc, arr);
-        const finals = posiYproces;
-        // console.log("posi "+finals);
-        nombresProcedimientos.length = 0;
-        return finals;
-    }
-
-
-
     const indexProce = (proc) => {
         for (var i = 0; i < procedimientos.length; i++) {
             if (proc == procedimientos[i].nombre) {
@@ -144,7 +130,6 @@ async function solve(n, procedimientos) {
             }
         }
     }
-
 
     /**Saca las posibilidades de un procedimiento */
 
@@ -160,7 +145,6 @@ async function solve(n, procedimientos) {
                 if (i < procedimientos.length - 2) {
                     horaFin = procedimientos[i].horaFin.hora + (procedimientos[i].horaFin.minutos / 60);
                 } else {
-
                 }
 
             } else if (horaComienzo >= horaFin) {
@@ -177,8 +161,6 @@ async function solve(n, procedimientos) {
     }
 
     // console.log(posibilities("Proc3", 22, procedimientos));
-
-
     /** Esta función me retorna un array con los elementos que son hojas del arbol: 
      * osea los que no pueden tener procedimientos ligados por transitividad
      * Ej:
@@ -226,7 +208,7 @@ async function solve(n, procedimientos) {
         return pNegativos;
     }
 
-        const procHc = (proc) => {
+    const procHc = (proc) => {
         for (var i = 0; i < procedimientos.length; i++) {
             if (procedimientos[i].nombre === proc) {
                 horaComienzo = procedimientos[i].horaInicio.hora + (procedimientos[i].horaInicio.minutos / 60);
@@ -252,40 +234,44 @@ async function solve(n, procedimientos) {
 
 
 
-    const transitivity = (proc1,proc2) => {
-        //horaFinal del proc3 <= horaInicial del proc4
-        //horaFinal del proc3 <= horaInicial del proc5
-        var hF = hF(proc1);
-        var hC = hC(proc2);
-        if(hF(proc1) <= hC(proc2)){
-            console.log(" sirve "+proc2);
-        }else{
-            
-        }
-
-       /* for(var i=0; i<posibilitiesFinal.length;i++){
-            if(posibilitiesFinal[i][1].length == 0){
-                posibilitiesFinal[i].length = 1; 
-            }else{
-                var hF = procHf(posibilitiesFinal[0][1][0]);
-                var hC = procHc(posibilitiesFinal[i][1][1]);
-                console.log("hf "+hF+ " hC "+hC);
-                if(hF <= hC){
+    const transitivity = () => {
+        var j = 0;
+        var m = posibilitiesFinal[0][1].length;
+        console.log("m " + m);
+        for (var x = 0; x < posibilitiesFinal.length; x++) {
+            for (var i = 0; i < posibilitiesFinal[i][1].length - 1; i++) {
+                j++;
+                console.log("proce en cuestion " + posibilitiesFinal[i][j][i] + " " + i);
+                var hF = procHf(posibilitiesFinal[i][j][i]);
+                var hC = procHc(posibilitiesFinal[j][j][j]);
+                console.log("hf " + hF + " hc " + hC);
+                if (hF <= hC && hF != 24) {
+                    console.log(" sirve " + posibilitiesFinal[j][1][j]);
+                } else {
 
                 }
             }
-            
-        }*/
+
+
+            /* for(var i=0; i<posibilitiesFinal.length;i++){
+                 if(posibilitiesFinal[i][1].length == 0){
+                     posibilitiesFinal[i].length = 1; 
+                 }else{
+                     var hF = procHf(posibilitiesFinal[0][1][0]);
+                     var hC = procHc(posibilitiesFinal[i][1][1]);
+                     console.log("hf "+hF+ " hC "+hC);
+                     if(hF <= hC){*/
+
+        }
 
 
     }
 
 
-    // console.log("horaInit "+horaInitProce(procedimientos[0].nombre, p));
-
     /**Hay un procedimiento de 24 horas, no se diga más, ese es el que se hará.
     * El procedimiento de 24 solo puede ser el primero porque en terminos de horas
     * de inicio y fin, es el único posible (0:00 - 24:00) */
+
     if (procedimientos[0].horaInicio.hora == 0 && procedimientos[0].horaFin.hora == 24) {
         return new Respuesta(1, new Hora(24, 0),
             [procedimientos[0].nombre]);
@@ -315,21 +301,16 @@ async function solve(n, procedimientos) {
             posibilitiesFinal[i] = sheets[j]/*, findRangexProce(procedimientos[i].nombre)*/;
             // posibilitiesFinal[i++] = findRangexProce(procedimientos[i].nombre);
             j++;
+
         }
-        
-        if(posibilitiesFinal[i][1].length == 0){
-            posibilitiesFinal[i].length = 1; 
+
+        if (posibilitiesFinal[i][1].length == 0) {
+            posibilitiesFinal[i].length = 1;
         }
         console.log("posibilities " + posibilitiesFinal[i]);
     }
 
-    //console.log("posibilitiessssssss " + posibilitiesFinal[0][1]);
-
-
-
-
-    //buildRanges(procedimientos); //Retorna un array con arrays (que contienen el procedimiento y su delta)
-    //findRangexProce("Proc2"); //Encuentra el delta de un procedimiento dependiendo del nombre de un procedimiento
+    //  transitivity();
 
     console.log("final proces " + nombresProcedimientos);
     //threeBuild(nombresProcedimientos);
