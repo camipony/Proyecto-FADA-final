@@ -59,90 +59,113 @@ async function output(obj) {
  * Implementar el algoritmo y devolver un objeto de tipo Respuesta, el cual servirá
  * para imprimir la solución al problema como se requiere en el enunciado.
  */
+//O(n^2+2n) => O(n^2) 
 async function solve(n, m, libros) {
     
     var cantidadPaginas = [], posicion=0;//array cantidadPaginas y su respectiva posicion (x)
     var reparticion;//Cantidad de paginas maximas que puede tener un escritor
-    var anteriorLib = 0;//Paginas del libro anterior
-    var deltaActual;
-    var deltaFinal = 0;
-    var sumPaginas = [];//Suma de las paginas de los libros en orden secuencial
+    var deltaFinal = 0;//Posición del ultimo libro de un escritor
     var librosIniciales = [];//Libros iniciales de los escritores
     var librosFinales = [];//Libros finales de los escritores
     var cantidadEscritores = n;
-    var nuevoInicio = 0;
+    var matrizPaginas = [];
+    var paginasTotales = [];
+    var paginas;
 
-    const matrizPaginas = () => {
-        for(var f=0;f<m;f++)
-            matrizPaginas[f]=[];
+    //No es necesaria en la solución del problema, solo para el diseño del algoritmo
+    //-----------------------------------------------
+    const matrizInicial = () => {
+        for(var fil=0;fil<m;fil++){
+            matrizPaginas[fil]=[];
+
+            for(var col=0;col<m;col++)
+                if(col>=fil) matrizPaginas[fil][col]=0;
+                else matrizPaginas[fil][col]=1;
+        }    
     } 
-    matrizPaginas();
-    /*var matrizPaginas = [ [20,20+10,20+10+10], 
+    matrizInicial();
+    console.log(matrizPaginas);
+    //-------------------------------------------------
+    
+    //O(n)
+    const sumaSecuencial = () => {
+        var paginasLibroAnterior=0;
+        for(var lib=0;lib<m;lib++){
+            paginasTotales[lib]=libros[lib].paginas+paginasLibroAnterior;
+            paginasLibroAnterior=paginasTotales[lib];
+        }
+        paginas = paginasTotales[paginasTotales.length-1];
+    }
+    sumaSecuencial();
+    console.log(paginasTotales);
+    /*
+    Realizar matriz de 0 y 1, 
+    donde 1 represente los valores que pueden tomarse para restarle a la cantidad de paginasIniciales
+    var matrizPaginas = [ [20,20+10,20+10+10], 
                         [10,10+10,10+10+30] ]*/
 
-    /*Matriz que contiene las distintas formas en que los paginas de los libros
-    pueden distribuirse desde un punto inicial*/
-    const matrizReparticion = () => {
-        var x = 0;
-        var y = 0;
-        var posibilidadesCol = m;
-        var limite = 0;
-
-        while(y<m){//O(n)
-            if(x>=y){
-                matrizPaginas[y][x] = limite+libros[x].paginas;//m[0][0]=0+20 =>20;m[0][1]=20+10 => 30;m[0][2]=30+10 => 40;m[0][3]=40+30=>70;m[0][4]=70+20=>90;m[0][5]=90+25=>115
-                limite = matrizPaginas[y][x];//limite=20;limite=30,limite=40,limite=70,limite=90
-                x++;//x=1;x=2;x=3;x=4;x=5;x=6
-                posibilidadesCol--;//pCol=5;pCol=4;pCol=3;pCol=2;pCol=1;pCol=0
-            }else{
-                matrizPaginas[y][x] = 0;
-                x++;
-                posibilidadesCol--;
-            }
-
-
-            if(posibilidadesCol==0){
-                limite = 0;
-                posibilidadesCol = m;//6-1=>5
-                y++;//y=1
-                x = 0;
-            }else y += 0;//y no se mueve mientras no se hayan insertado todos los elementos x en y O(n)
-        }
-    }
-    matrizReparticion();
-    console.log(matrizPaginas[2]);
 
     
     console.log(libros[0].paginas);
-    //posicion del libro final de un escritor
-    const finSecuencia = (inicio) => {
-        var deltaAnterior = 0;
-        nuevoInicio = inicio;
-        librosIniciales.push(libros[nuevoInicio].nombre);
-
-        reparticion = matrizPaginas[nuevoInicio][matrizPaginas[nuevoInicio].length-1]/cantidadEscritores;
-        console.log(reparticion);
-        
-        for(var s=0;s<m;s++){
-            
-            deltaActual = Math.abs(matrizPaginas[nuevoInicio][s]-reparticion);//10-28.33
+    //posicion del libro final de un escritor -> O(n)
     
-            if(deltaActual<deltaAnterior){ 
-                deltaFinal = s; 
-                cantidadPaginas[posicion]=matrizPaginas[nuevoInicio][deltaFinal];
-                cambioDeltaFinal=true;
-                console.log(cantidadPaginas);
-            }
+    //Contiene los detalles del trabajo (realizar copias), detalles como libros finales e iniciales, y la cantidad de dias que demora en realizarse las copias
+    const detallesTrabajo = (inicio) => {
+        
+        var descartadas=0;
 
-            deltaAnterior = deltaActual;
-            console.log(deltaFinal);
-        }
+        if(inicio==0) descartadas = 0;
+        else descartadas = paginasTotales[inicio-1];      
+
+        console.log(descartadas);
+        
+        librosIniciales.push(libros[inicio].nombre);
+        console.log(libros[inicio].nombre)
+        paginas = paginas-descartadas;
+        console.log(paginas)
+        
+        reparticion = paginas/cantidadEscritores;
+
+        console.log(reparticion)
+        
+        libroFinal(inicio,reparticion,descartadas);//O(n)
+        
+        console.log(deltaFinal);
+        paginas = paginasTotales[paginasTotales.length-1]
         librosFinales.push(libros[deltaFinal].nombre);
+        console.log(libros[deltaFinal].nombre)
         posicion++;
         cantidadEscritores -= 1;
 
-        if(deltaFinal+1<m) finSecuencia(deltaFinal+1);
+        if(deltaFinal+1<m) detallesTrabajo(deltaFinal+1);
 
+    }
+
+    //console.log(matrizPaginas[2]);
+    //posicion final del ultimo libro un escritor
+    
+    const libroFinal = (inicio,reparticion,librosDescartados) => {
+        var final = Math.abs(paginasTotales[inicio]-librosDescartados-reparticion);//40-75=35;
+        deltaFinal = inicio;
+        console.log(final);
+        var diferencia;
+        
+        //O(n)
+       for(var lib=inicio+1;lib<m;lib++){
+             diferencia = Math.abs(paginasTotales[lib]-librosDescartados-reparticion);//70-75=5,90-75=15
+                
+             if(diferencia<final){
+                deltaFinal = lib; 
+                final = diferencia;
+                console.log(deltaFinal)
+                console.log(final);
+                cantidadPaginas[posicion] = paginasTotales[lib]-librosDescartados;
+            }
+        
+           
+
+        }
+        console.log(deltaFinal)
     }
 
     //costo O(n) -> Determinar la mayor cantidad de paginas asignadas para calcular el tiempo de demora
@@ -154,9 +177,9 @@ async function solve(n, m, libros) {
         }
         return dias;
     }
-
-    finSecuencia(0);
-    //invocaciones();
+    
+    detallesTrabajo(0);
+   
     console.log(librosIniciales);
     console.log(librosFinales);
     

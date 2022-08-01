@@ -58,13 +58,12 @@ async function output(obj) {
  * Implementar el algoritmo y devolver un objeto de tipo Respuesta, el cual servirá
  * para imprimir la solución al problema como se requiere en el enunciado.
  */
+//O(2n^2+n) => O(2n^2)
 async function solve(n, m, libros) {
     
     var cantidadPaginas = [], x=0;//array cantidadPaginas y su respectiva posicion (x)
     var reparticion;//Cantidad de paginas maximas que puede tener un escritor
     var anteriorLib = 0;//Paginas del libro anterior
-    var deltaActual;
-    var deltaAnterior = 0;
     var deltaFinal = 0;
     var sumPaginas = [];//Suma de las paginas de los libros en orden secuencial
     var librosIniciales = [];//Libros iniciales de los escritores
@@ -72,11 +71,18 @@ async function solve(n, m, libros) {
     var cantidadEscritores = n;
     var nuevoInicio = 0;
 
-    //Cantidad de paginas totales inicialmente
+    //Cantidad de paginas totales inicialmente -> O(2n)
+    /*
+    Calculo de paginas:
+    //[20,10,10,30,20,25] => [0+20,20+10,20+10+10,20+10+10+30,20+10+10+30+20,20+10+10+30+20+25]
+    //[0,0,10,30,20,25] => [0,0,0+10,10+30,10+30+20,10+30+20+25]
+    //[0,0,0,0,20,25] => [0,0,0,0,0+20,20+25]
+    //[0,0,0,0,0,25] => [0,0,0,0,0,0+25]
+    */
     const paginas = (inicio) => {
         anteriorLib = 0;
+        //O(n)
         for(var h=0;h<m;h++){
-            
             if(h>=inicio){
             sumPaginas[h]=anteriorLib+libros[h].paginas;
             anteriorLib=sumPaginas[h];
@@ -86,25 +92,24 @@ async function solve(n, m, libros) {
 
         }
         librosIniciales.push(libros[inicio].nombre);
-        finSecuencia(sumPaginas);
+        finSecuencia(sumPaginas);//O(n)
     };
     
-    //posicion del libro final de un escritor
+    //posicion del libro final de un escritor -> O(n)
     const finSecuencia = (secuenciaLibros) => {
         sumPaginas = secuenciaLibros;
         reparticion = sumPaginas[sumPaginas.length-1]/cantidadEscritores;
-        console.log(reparticion);
+        var final = Math.abs(sumPaginas[0]-reparticion);
+        var diferencia;
 
-        for(var s=0;s<m;s++){
-            
-            deltaActual = Math.abs(sumPaginas[s]-reparticion);
-    
-            if(deltaActual<deltaAnterior){ 
+        for(var s=1;s<m;s++){
+            diferencia = Math.abs(sumPaginas[s]-reparticion);
+
+            if(diferencia<final){ 
                 deltaFinal = s; 
+                final = diferencia;
                 cantidadPaginas[x]=sumPaginas[deltaFinal];
             }
-            
-            deltaAnterior = deltaActual;
         }
         librosFinales.push(libros[deltaFinal].nombre);
         x++;
@@ -122,18 +127,21 @@ async function solve(n, m, libros) {
         return dias;
     }
 
-
+    //O(2n^2)
     const invocaciones = () => {
         paginas(0);
         var k = nuevoInicio;
-        
+
+        //O(n)
         while(k<m){
-            paginas(k);
+            paginas(k);//O(2n)
             k = nuevoInicio;
         }
     }
 
     invocaciones();
+    console.log(librosIniciales);
+    console.log(librosFinales);
     
     return new Respuesta(diasMaximos(cantidadPaginas), librosIniciales, librosFinales);
 }

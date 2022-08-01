@@ -1,5 +1,3 @@
-40
-L1 L2
-L3 L4
-L5 L5
-L6 L6
+38
+Libro1 Libro5
+Libro6 Libro8
