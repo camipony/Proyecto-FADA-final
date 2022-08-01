@@ -116,7 +116,6 @@ async function solve(n, procedimientos) {
 
     console.log("console "+nombresProcedimientos2.length)
     console.log("console1 "+nombresProcedimientos.length)
-
     tiempoAcum = (tiempoAcum+"").split(".");
     horasAcum = tiempoAcum[0];
     minutosAcum = Math.trunc(parseFloat(0+"."+tiempoAcum[1])*60);
