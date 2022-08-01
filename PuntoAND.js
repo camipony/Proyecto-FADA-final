@@ -72,6 +72,53 @@ async function solve(n, procedimientos) {
     var horas, minutos;
     var horaFinal, minutosFinal, horaActual;
     var procFinales, horasFinales;
+    var horasIni=[], horasIniSort = [];
+    var horasFin = [], horasFinSort = [];
+    var nombreProc = [], nombreProcSort = [];
+
+    for(var i=0; i<n; i++){
+        horasIni.push(procedimientos[i].horaInicio.hora+(procedimientos[i].horaInicio.minutos/60));
+        horasFin.push(procedimientos[i].horaFin.hora+(procedimientos[i].horaFin.minutos/60));
+        nombreProc.push(procedimientos[i].nombre);
+    } 
+    
+   
+    const buildRanges = (horasInic) => {
+        for(var i=0; i<n; i++){
+            horasInic.push(procedimientos[i].horaInicio.hora+
+            (procedimientos[i].horaInicio.minutos/60));
+        }
+        horasInic.sort(function (a, b) {
+            if (a > b) return 1;
+            if (a < b) return -1;
+            return 0;
+        });
+    }
+
+    buildRanges(horasIniSort)
+
+    const emparejar = () =>{
+        var inicio = 0;
+        var x = 0;
+        var y = -1;
+    
+        while(inicio<horasIni.length){
+            if(horasIniSort[inicio]==horasIni[x] && y!=x){//horasIniSort[0]=horasIni[1]|procSort[0]=proc[1]
+                horasFinSort[inicio]=horasFin[x];
+                nombreProcSort[inicio]=nombreProc[x];
+                y = x;
+                x = 0;
+                inicio++;
+            }else x++;
+        }
+    }
+    emparejar();
+    console.log(horasIni)
+    console.log(horasIniSort)
+    console.log(horasFin)
+    console.log(horasFinSort)
+    console.log(nombreProc)
+    console.log(nombreProcSort)
 
 //Para cada procedimiento sacar la combinacion con más cantidad de horas
 for(var d=0;d<n-1;d++){//(0,1,2,3
