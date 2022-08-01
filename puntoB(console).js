@@ -2,8 +2,8 @@ let fs = require('fs');
 /**
  * Nombres de los archivos de lectura y escritura, modifique como considere.
  */
-let ARCHIVO_LECTURA = 'inB';
-let ARCHIVO_ESCRITURA = 'outB'
+let ARCHIVO_LECTURA = 'Proyecto-FADA-final/inB';
+let ARCHIVO_ESCRITURA = 'Proyecto-FADA-final/outB'
 
 /**
  * Método para realizar la lectura del problema, no modificar.
@@ -58,12 +58,12 @@ async function output(obj) {
  * Implementar el algoritmo y devolver un objeto de tipo Respuesta, el cual servirá
  * para imprimir la solución al problema como se requiere en el enunciado.
  */
-//O(2n^2+n) => O(2n^2)
 async function solve(n, m, libros) {
     
     var cantidadPaginas = [], x=0;//array cantidadPaginas y su respectiva posicion (x)
     var reparticion;//Cantidad de paginas maximas que puede tener un escritor
-    var anteriorLib = 0;//Paginas del libro anterior
+    var deltaActual;
+    var deltaAnterior = 0;
     var deltaFinal = 0;
     var sumPaginas = [];//Suma de las paginas de los libros en orden secuencial
     var librosIniciales = [];//Libros iniciales de los escritores
@@ -71,50 +71,61 @@ async function solve(n, m, libros) {
     var cantidadEscritores = n;
     var nuevoInicio = 0;
 
-    //Cantidad de paginas totales inicialmente -> O(2n)
-    /*
-    Calculo de paginas:
-    //[20,10,10,30,20,25] => [0+20,20+10,20+10+10,20+10+10+30,20+10+10+30+20,20+10+10+30+20+25]
-    //[0,0,10,30,20,25] => [0,0,0+10,10+30,10+30+20,10+30+20+25]
-    //[0,0,0,0,20,25] => [0,0,0,0,0+20,20+25]
-    //[0,0,0,0,0,25] => [0,0,0,0,0,0+25]
-    */
+    //Cantidad de paginas totales inicialmente
     const paginas = (inicio) => {
-        anteriorLib = 0;
-        //O(n)
+
+        var anteriorLib = 0;//Paginas del libro anterior
+       
+
         for(var h=0;h<m;h++){
-            if(h>=inicio){
-            sumPaginas[h]=anteriorLib+libros[h].paginas;
-            anteriorLib=sumPaginas[h];
-            }else{
+            
+            if(h<inicio){
+               
                 sumPaginas[h] = 0;
+                
+            }else{
+                console.log(anteriorLib);
+                console.log(libros[h].paginas)
+                sumPaginas[h]=anteriorLib+libros[h].paginas;
+                anteriorLib=sumPaginas[h];
             }
 
+            
+            
         }
         librosIniciales.push(libros[inicio].nombre);
-        finSecuencia(sumPaginas);//O(n)
+        console.log(librosIniciales);
+        console.log(sumPaginas);
+        finSecuencia(sumPaginas);
     };
     
-    //posicion del libro final de un escritor -> O(n)
+    console.log(libros);
+    //posicion del libro final de un escritor
     const finSecuencia = (secuenciaLibros) => {
-        sumPaginas = secuenciaLibros;
-        reparticion = sumPaginas[sumPaginas.length-1]/cantidadEscritores;
-        var final = Math.abs(sumPaginas[0]-reparticion);
-        var diferencia;
-
-        for(var s=1;s<m;s++){
-            diferencia = Math.abs(sumPaginas[s]-reparticion);
-
-            if(diferencia<final){ 
+        reparticion = secuenciaLibros[secuenciaLibros.length-1]/cantidadEscritores;
+        console.log(reparticion);
+        
+        for(var s=0;s<m;s++){
+            
+            deltaActual = Math.abs(secuenciaLibros[s]-reparticion);
+    
+            if(deltaActual<deltaAnterior){ 
                 deltaFinal = s; 
-                final = diferencia;
-                cantidadPaginas[x]=sumPaginas[deltaFinal];
+                cantidadPaginas[x]=secuenciaLibros[deltaFinal];
             }
+            
+            deltaAnterior = deltaActual;
+            console.log(deltaFinal);
         }
+
         librosFinales.push(libros[deltaFinal].nombre);
         x++;
         cantidadEscritores -= 1;
         nuevoInicio = deltaFinal+1;
+        console.log(nuevoInicio);
+        
+        console.log(librosIniciales);
+        console.log(librosFinales);
     }
 
     //costo O(n) -> Determinar la mayor cantidad de paginas asignadas para calcular el tiempo de demora
@@ -127,19 +138,23 @@ async function solve(n, m, libros) {
         return dias;
     }
 
-    //O(2n^2)
+
     const invocaciones = () => {
         paginas(0);
         var k = nuevoInicio;
-
-        //O(n)
+        console.log(k);
         while(k<m){
-            paginas(k);//O(2n)
+            paginas(k);
             k = nuevoInicio;
+            console.log(k);
         }
     }
 
     invocaciones();
+    console.log(diasMaximos(cantidadPaginas));
+    
+    
+    
     console.log(librosIniciales);
     console.log(librosFinales);
     
