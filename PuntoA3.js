@@ -109,7 +109,7 @@ async function solve(n, procedimientos) {
             }
         }
     }
-    //Retorna un array con arrays (que contienen el procedimiento y su delta)
+    //Ordena el vector de rangos
     const buildVectorRanges = (ranges) => {
         //ranges.sort();
         ranges.sort(function (a, b) {
@@ -123,6 +123,7 @@ async function solve(n, procedimientos) {
         }*/
     }
 
+    //Encuentra el indice de un procedimiento
     const indexProce = (proc) => {
         for (var i = 0; i < procedimientos.length; i++) {
             if (proc == procedimientos[i].nombre) {
@@ -145,6 +146,7 @@ async function solve(n, procedimientos) {
                 if (i < procedimientos.length - 2) {
                     horaFin = procedimientos[i].horaFin.hora + (procedimientos[i].horaFin.minutos / 60);
                 } else {
+                
                 }
 
             } else if (horaComienzo >= horaFin) {
@@ -241,9 +243,9 @@ async function solve(n, procedimientos) {
         for (var x = 0; x < posibilitiesFinal.length; x++) {
             for (var i = 0; i < posibilitiesFinal[i][1].length - 1; i++) {
                 j++;
-                console.log("proce en cuestion " + posibilitiesFinal[i][j][i] + " " + i);
-                var hF = procHf(posibilitiesFinal[i][j][i]);
-                var hC = procHc(posibilitiesFinal[j][j][j]);
+                console.log("proce en cuestion " + posibilitiesFinal[i][1][i] + " " + i);
+                var hF = procHf(posibilitiesFinal[i][1][i]);
+                var hC = procHc(posibilitiesFinal[j][1][j]);
                 console.log("hf " + hF + " hc " + hC);
                 if (hF <= hC && hF != 24) {
                     console.log(" sirve " + posibilitiesFinal[j][1][j]);
@@ -308,6 +310,10 @@ async function solve(n, procedimientos) {
             posibilitiesFinal[i].length = 1;
         }
         console.log("posibilities " + posibilitiesFinal[i]);
+        /*for(var i=0; i<posibilitiesFinal.length;i++){
+            transitivity();
+
+        }*/
     }
 
     //  transitivity();
