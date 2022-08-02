@@ -145,7 +145,7 @@ for(var d=0;d<n-1;d++){//(0,1,2,3
 		
         if(horaIniActual>=horaFinal){
             
-            combinaciones[d] += "-"+procedimientos[k].nombre;
+            combinaciones[d] += "-"+nombreProcSort[k];
             horaFinal = horaFinActual;//2y->22
             rango += horaFinActual - horaIniActual;
         }  
