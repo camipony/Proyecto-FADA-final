@@ -68,6 +68,7 @@ async function output(obj) {
 async function solve(n, procedimientos) {
     var combinaciones = [];
     var rangos = [];
+    var rangosInidividuales = [], rangIndSort = [];
     var rango = 0;
     var horas, minutos;
     var horaFinal, horaActual;
@@ -76,13 +77,15 @@ async function solve(n, procedimientos) {
     var horasFin = [], horasFinSort = [];
     var nombreProc = [], nombreProcSort = [];
 
+    //Agregar elementos a los arrays
     for(var i=0; i<n; i++){
         horasIni.push(procedimientos[i].horaInicio.hora+(procedimientos[i].horaInicio.minutos/60));
         horasFin.push(procedimientos[i].horaFin.hora+(procedimientos[i].horaFin.minutos/60));
         nombreProc.push(procedimientos[i].nombre);
+        rangosInidividuales.push(horasFin-horasIni);
     } 
     
-   
+    //Ordenar horas iniciales
     const buildRanges = (horasInic) => {
         for(var i=0; i<n; i++){
             horasInic.push(procedimientos[i].horaInicio.hora+
@@ -95,12 +98,12 @@ async function solve(n, procedimientos) {
         });
     }
 
-    buildRanges(horasIniSort)
+    buildRanges(horasIniSort);
 
+    //Ordenar las horasFinales y el nombre de los procedimientos de acuerdo a las horas de inicio -> O(n^2)
     const emparejar = () =>{
         var inicio = 0;
         var x = 0;
-        var y = 0;
         var prohibidos = [];
     
         while(inicio<horasIni.length){
@@ -108,7 +111,7 @@ async function solve(n, procedimientos) {
                 
                 horasFinSort[inicio]=horasFin[x];
                 nombreProcSort[inicio]=nombreProc[x];
-                y=x;
+                rangIndSort[inicio]=rangosInidividuales[x];
                 prohibidos[x]=nombreProc[x];
                 x = 0;
                 inicio++;
@@ -118,52 +121,42 @@ async function solve(n, procedimientos) {
         console.log(prohibidos)
         
     }
-    emparejar();
     
-    console.log(horasIni)
-    console.log(isNaN(horasIni[0]))
-    console.log(horasIniSort)
-    console.log(horasFin)
-    console.log(horasFinSort)
-    console.log(nombreProc)
-    console.log(nombreProcSort)
+    emparejar();
 
-//Para cada procedimiento sacar la combinacion con más cantidad de horas
-for(var d=0;d<n-1;d++){//(0,1,2,3
+//Para cada procedimiento sacar la combinacion de procedimientos siguientes con más cantidad de horas
+    const horasMaximas = () =>{
+        for(var d=0;d<n-1;d++){//(0,1,2,3
 
-	combinaciones[d]=nombreProcSort[d];
-    horaFinal = horasFinSort[d];
-    horaActual = horasIniSort[d];
-    rango = horaFinal - horaActual;
-    console.log(rango)
-    console.log(horaFinal)
-
-	for(var k=d+1;k<n;k++){//(1x,2y,3x,4y; 2x,3y,4y; 3x,4y; 4
-        var horaIniActual = horasIniSort[k];
-        var horaFinActual = horasFinSort[k];
-        
-		
-        if(horaIniActual>=horaFinal){
+            combinaciones[d]=nombreProcSort[d];
+            horaFinal = horasFinSort[d];
+            horaActual = horasIniSort[d];
+            rango = horaFinal - horaActual;
+            console.log(rango)
+            console.log(horaFinal)
+    
+            for(var k=d+1;k<n;k++){//(1x,2y,3x,4y; 2x,3y,4y; 3x,4y; 4
+                var horaIniActual = horasIniSort[k];
+                var horaFinActual = horasFinSort[k];
             
-            combinaciones[d] += "-"+nombreProcSort[k];
-            horaFinal = horaFinActual;//2y->22
-            rango += horaFinActual - horaIniActual;
-        }  
-	}   
-        if(rango<=24)
-        rangos[d] = rango;
-        else 
-        rangos[d] = 0;
-}
+            
+                if(horaIniActual>=horaFinal){
+                
+                    combinaciones[d] += "-"+nombreProcSort[k];
+                    horaFinal = horaFinActual;//2y->22
+                    rango += horaFinActual - horaIniActual;
+                }  
+            }         
+                if(rango<=24)
+                rangos[d] = rango;
+                else 
+                rangos[d] = 0;
+        }
+    }
+    
+horasMaximas();
 
-console.log(combinaciones[0])
-console.log(combinaciones[1])
-console.log(combinaciones[2])
-console.log(rangos);
-console.log(combinaciones.length)
-
-
-
+const correspondencias = () => {
     procFinales = combinaciones[0].split("-");
     horasFinales = rangos[0];
     
@@ -176,18 +169,13 @@ console.log(combinaciones.length)
             
     }
 
-
-//rangoMayor()
     horasFinales = (horasFinales+"").split(".");
-    console.log(horasFinales)
     horas = horasFinales[0];
     minutos = Math.trunc(parseFloat(0+"."+horasFinales[1])*60);
+}
     
+correspondencias()
 
-    console.log(horas)
-
-    console.log(procFinales)
-    
     return new Respuesta(procFinales.length, new Hora(horas, minutos), procFinales);
 }
 async function main() {
