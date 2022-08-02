@@ -1,0 +1,374 @@
+
+caso 1: n y m múltiplos de 3
+
+3 6
+libro1 3
+libro2 10
+libro3 9
+libro4 23
+libro5 5
+libro6 12
+
+caso 2: n y m múltiplos de 2
+
+tiempo prog dinámica: 5.687ms
+2 8
+libro1 13
+libro2 8
+libro3 4
+libro4 6
+libro5 5
+libro6 10
+libro7 21
+libro8 7
+
+
+caso 3: n y m múltiplos de 2 
+
+4 6
+libro1 20
+libro2 10
+libro3 10
+libro4 30
+libro5 20
+libro6 25
+
+caso 4: n y m no son múltiplos, cantidad extensa de libros
+
+6 45
+libro1 197
+libro2 23
+libro3 192
+libro4 31
+libro5 37
+libro6 173
+libro7 179
+libro8 211
+libro9 29
+libro10 193
+libro11 19
+libro12 197
+libro13 23
+libro14 191
+libro15 31
+libro16 37
+libro17 22
+libro18 179
+libro19 173
+libro20 29
+libro21 193
+libro22 19
+libro23 194
+libro24 23
+libro25 191
+libro26 31
+libro27 37
+libro28 173
+libro29 179
+libro30 181
+libro31 29
+libro32 193
+libro33 19
+libro34 197
+libro35 23
+libro36 199
+libro37 31
+libro38 47
+libro39 173
+libro40 179
+libro41 181
+libro42 17
+libro43 193
+libro44 19
+libro45 227
+
+caso 5: n y m no son múltiplos, cantidad variable de libros
+
+4 6
+libro1 30
+libro2 25
+libro3 20
+libro4 10
+libro5 20
+libro6 10
+
+caso 6: muchos libros, pocas paginas
+
+10 15
+libro1 3
+libro2 2
+libro3 1
+libro4 2
+libro5 1
+libro6 2
+libro7 3
+libro8 1
+libro9 2
+libro10 1
+libro11 3
+libro12 4
+libro13 3
+libro14 1
+libro15 3
+
+caso 7: pocos libros, muchas páginas
+3 5
+libro1 40
+libro2 45
+libro3 58
+libro4 61
+libro5 45
+
+caso 8: cantidad de páginas par
+4 6
+libro1 30
+libro2 10
+libro3 6
+libro4 12
+libro5 14
+libro6 10
+
+caso 9: cantidad de paginas impar
+
+libro1 31
+libro2 17
+libro3 3
+libro4 13
+libro5 13
+libro6 1
+
+caso 10:  n par y m impar
+4 7
+libro1 3
+libro2 8
+libro3 6
+libro4 11
+libro5 12
+libro6 3
+libro6 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#4 n y m no son múltiplos, cantidad extensa de libros
+
+tiempo prog no dinámica: 
+3.998ms
+
+tiempo prog dinámica: 9.548ms
+6 45
+libro1 197
+libro2 23
+libro3 192
+libro4 31
+libro5 37
+libro6 173
+libro7 179
+libro8 211
+libro9 29
+libro10 193
+libro11 19
+libro12 197
+libro13 23
+libro14 191
+libro15 31
+libro16 37
+libro17 22
+libro18 179
+libro19 173
+libro20 29
+libro21 193
+libro22 19
+libro23 194
+libro24 23
+libro25 191
+libro26 31
+libro27 37
+libro28 173
+libro29 179
+libro30 181
+libro31 29
+libro32 193
+libro33 19
+libro34 197
+libro35 23
+libro36 199
+libro37 31
+libro38 47
+libro39 173
+libro40 179
+libro41 181
+libro42 17
+libro43 193
+libro44 19
+libro45 227
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+882
+libro1 libro7
+libro8 libro14
+libro15 libro23
+libro24 libro31
+libro32 libro39
+libro40 libro45
+
+
+
+
+#5 n y m no son múltiplos, cantidad variable de libros
+
+tiempo prog no dinamica: 
+3.938ms
+
+tiempo prog dinamica: 9.529ms
+
+
+4 6
+libro1 30
+libro2 25
+libro3 20
+libro4 10
+libro5 20
+libro6 10
+30
+libro1 libro1
+libro2 libro2
+libro3 libro4
+libro5 libro6
+
+
+
+#6 muchos libros, pocas paginas
+
+tiempo prog no dinamica: 
+2.951ms
+
+tiempo prog dinamica: 8.07ms
+10 15
+libro1 3
+libro2 2
+libro3 1
+libro4 2
+libro5 1
+libro6 2
+libro7 3
+libro8 1
+libro9 2
+libro10 1
+libro11 3
+libro12 4
+libro13 3
+libro14 1
+libro15 3
+4
+libro1 libro1
+libro2 libro3
+libro4 libro5
+libro6 libro6
+libro7 libro7
+libro8 libro10
+libro11 libro11
+libro12 libro12
+libro13 libro13
+libro14 libro15
+
+
+
+#7 pocos libros, muchas páginas
+
+tiempo prog no dinamica: 
+3.385ms
+
+tiempo prog dinamica: 3.25ms
+3 5
+libro1 40
+libro2 45
+libro3 58
+libro4 61
+libro5 45
+106
+libro1 libro2
+libro3 libro3
+libro4 libro5
+
+
+#8 cantidad de páginas par
+
+tiempo prog no dinamica: 
+3.968ms
+
+tiempo prog dinamica: 7.919ms
+4 6
+libro1 30
+libro2 10
+libro3 6
+libro4 12
+libro5 14
+libro6 10
+24
+libro1 libro1
+libro2 libro3
+libro4 libro4
+libro5 libro6
+
+
+#9 cantidad de paginas impar
+
+tiempo prog no dinamica: 
+5.035ms
+
+tiempo prog dinamica: 9.548ms 
+4 6
+libro1 31
+libro2 17
+libro3 3
+libro4 13
+libro5 13
+libro6 1
+17
+libro1 libro1
+libro2 libro2
+libro3 libro4
+libro5 libro6
+
+
+#10 n par y m impar
+
+
+tiempo prog no dinamica: 
+11.155ms
+
+tiempo prog dinamica: 9.452ms
+4 7
+libro1 3
+libro2 8
+libro3 6
+libro4 11
+libro5 12
+libro6 3
+libro6 5
+
+
+

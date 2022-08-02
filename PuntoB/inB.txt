@@ -1,0 +1,7 @@
+3 6
+libro1 3
+libro2 10
+libro3 9
+libro4 23
+libro5 4
+libro6 12

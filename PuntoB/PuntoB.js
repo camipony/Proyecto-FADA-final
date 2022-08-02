@@ -104,7 +104,6 @@ async function solve(n, m, libros) {
 
         for(var s=1;s<m;s++){
             diferencia = Math.abs(sumPaginas[s]-reparticion);
-
             if(diferencia<final){ 
                 deltaFinal = s; 
                 final = diferencia;
@@ -120,9 +119,12 @@ async function solve(n, m, libros) {
     //costo O(n) -> Determinar la mayor cantidad de paginas asignadas para calcular el tiempo de demora
     const diasMaximos = (paginas) => {
         var dias = paginas[0];
-
         for(var w=1;w<paginas.length;w++){
-            if(dias<paginas[w]) dias=paginas[w];
+            if(isNaN(dias)){
+                dias = 0; 
+            }
+    
+            if(dias<paginas[w]) dias=paginas[w]
         }
         return dias;
     }
@@ -148,9 +150,11 @@ async function solve(n, m, libros) {
 
 async function main() {
     const inp = await input();
+    console.time('loop');
     let res = await solve(inp.n, inp.m, inp.libros);
     console.log(inp.libros)
     await output(res);
+    console.timeEnd('loop');
 }
 
 

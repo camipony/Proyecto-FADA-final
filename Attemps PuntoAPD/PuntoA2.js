@@ -130,21 +130,6 @@ async function solve(n, procedimientos) {
                 }
             }
             }
-
-        /*var r = nombresProcedimientos[1].length-2;
-       // console.log("lenght "+nombresProcedimientos[0][0].length)
-      //  console.log("prueba "+ r+ " prueba2 "+nombresProcedimientos[nombresProcedimientos.length-1][nombresProcedimientos.length-2]);
-            for (var m = 0; m < nombresProcedimientos.length; m++) {
-                for(var j= 0; j<nombresProcedimientos.length; j++){
-                    var lastproce = nombresProcedimientos[m][r];
-                    console.log("last "+lastproce);
-                    console.log("row "+nombresProcedimientos[m][0]);
-    
-                    if(lastproce === nombresProcedimientos[m][0]){
-                        console.log(" encontró cadena "+lastproce);
-                    }
-                }
-        }*/
     }
 
     const posiXproc = (proc, procedimientos) => {
